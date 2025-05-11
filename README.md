@@ -16,19 +16,19 @@ One of the KEY reasons I also wanted to learn this is I recently deployed a fun 
 
 This project was developed using **Visual Studio Code (VS Code)** as the primary code editor. Key development tools included:
 
-*   **Node.js and npm:** For managing project dependencies, running scripts, and providing the JavaScript runtime.
-*   **TypeScript:** As the primary programming language, adding static typing to JavaScript.
-*   **ESLint and Prettier:** For code linting and formatting to maintain code quality and consistency.
-*   **Firebase CLI:** For initializing Firebase services, running local emulators, and deploying the project.
-*   **Firebase Emulators:** For local testing of Authentication, Firestore, Cloud Functions, and Hosting.
-*   **esbuild:** As the JavaScript bundler to process TypeScript files for browser compatibility.
+- **Node.js and npm:** For managing project dependencies, running scripts, and providing the JavaScript runtime.
+- **TypeScript:** As the primary programming language, adding static typing to JavaScript.
+- **ESLint and Prettier:** For code linting and formatting to maintain code quality and consistency.
+- **Firebase CLI:** For initializing Firebase services, running local emulators, and deploying the project.
+- **Firebase Emulators:** For local testing of Authentication, Firestore, Cloud Functions, and Hosting.
+- **esbuild:** As the JavaScript bundler to process TypeScript files for browser compatibility.
 
 The core programming language used was **TypeScript**. Key libraries and frameworks utilized include:
 
-*   **Firebase SDK (Client-side):** Specifically `firebase/app`, `firebase/auth`, `firebase/firestore` (though Firestore interaction was primarily via backend functions), and `firebase/functions` (for calling backend functions).
-*   **Firebase Admin SDK (Server-side in Cloud Functions):** For backend operations, interacting with Authentication and Firestore securely.
-*   **Firebase Functions:** For writing serverless backend logic (user profile management).
-*   **Standard Web Technologies:** HTML5, CSS3 for the frontend structure and styling.
+- **Firebase SDK (Client-side):** Specifically `firebase/app`, `firebase/auth`, `firebase/firestore` (though Firestore interaction was primarily via backend functions), and `firebase/functions` (for calling backend functions).
+- **Firebase Admin SDK (Server-side in Cloud Functions):** For backend operations, interacting with Authentication and Firestore securely.
+- **Firebase Functions:** For writing serverless backend logic (user profile management).
+- **Standard Web Technologies:** HTML5, CSS3 for the frontend structure and styling.
 
 # Useful Websites
 
