@@ -1,4 +1,4 @@
-import { auth, functions, db } from './firebase-init.js';
+import { auth, functions } from './firebase-init.js';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { httpsCallable, HttpsCallable } from 'firebase/functions';
 
@@ -74,9 +74,13 @@ async function loadUserProfile(user: User) {
     profileEmailInput.value = user.email || profile.email || '';
     profileNameInput.value = profile.name || '';
     profileBioTextarea.value = profile.bio || '';
-  } catch (error: any) {
-    console.error('Error fetching user profile:', error);
-    profileErrorP.textContent = error.message || 'Could not load profile.';
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    if (error instanceof Error) {
+      profileErrorP.textContent = error.message;
+    } else {
+      profileErrorP.textContent = "Could not load profile due to an unknown error.";
+    }
   } finally {
     loadingDiv.style.display = 'none';
   }
@@ -124,9 +128,13 @@ if (
       console.log('Profile update result:', result.data);
       profileMessageP.textContent =
         result.data.message || 'Profile updated successfully!';
-    } catch (error: any) {
-      console.error('Error updating profile:', error);
-      profileErrorP.textContent = error.message || 'Failed to update profile.';
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      if (error instanceof Error) {
+        profileErrorP.textContent = error.message;
+      } else {
+        profileErrorP.textContent = "Failed to update Profile.";
+      }
     }
   });
 }

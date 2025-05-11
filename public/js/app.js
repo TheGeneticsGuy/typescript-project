@@ -29052,14 +29052,30 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 
 // src/app.ts
 init_index_esm();
-var loginLinkNav = document.getElementById("loginLinkNav");
-var registerLinkNav = document.getElementById("registerLinkNav");
-var profileLink = document.getElementById("profileLink");
-var logoutButton = document.getElementById("logoutButton");
-var userInfoDiv = document.getElementById("userInfo");
-var userEmailSpan = document.getElementById("userEmail");
-var notLoggedInDivProfile = document.getElementById("not-logged-in");
-var profileContainerDiv = document.getElementById("profile-container");
+var loginLinkNav = document.getElementById(
+  "loginLinkNav"
+);
+var registerLinkNav = document.getElementById(
+  "registerLinkNav"
+);
+var profileLink = document.getElementById(
+  "profileLink"
+);
+var logoutButton = document.getElementById(
+  "logoutButton"
+);
+var userInfoDiv = document.getElementById(
+  "userInfo"
+);
+var userEmailSpan = document.getElementById(
+  "userEmail"
+);
+var notLoggedInDivProfile = document.getElementById(
+  "not-logged-in"
+);
+var profileContainerDiv = document.getElementById(
+  "profile-container"
+);
 onAuthStateChanged(auth, (user) => {
   if (user) {
     if (loginLinkNav) loginLinkNav.style.display = "none";
@@ -29098,6 +29114,12 @@ if (logoutButton) {
       console.error("Sign out error", error);
     }
   });
+}
+var yearSpan = document.getElementById(
+  "currentYear"
+);
+if (yearSpan) {
+  yearSpan.textContent = (/* @__PURE__ */ new Date()).getFullYear().toString();
 }
 /*! Bundled license information:
 

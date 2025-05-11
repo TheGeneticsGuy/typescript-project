@@ -129,6 +129,8 @@ if (
           const profileData: CreateUserProfileData = {
             name: name || userCredential.user.displayName || '',
           };
+          const profileResult = await createUserProfile(profileData);
+          console.log('Profile creation result:', profileResult.data.message);
         } catch (profileError) {
           console.error('Error creating user profile document:', profileError);
         }

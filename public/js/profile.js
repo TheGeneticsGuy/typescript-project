@@ -1332,11 +1332,11 @@ function openDB(name5, version5, { blocked, upgrade, blocking, terminated } = {}
       event
     ));
   }
-  openPromise.then((db3) => {
+  openPromise.then((db2) => {
     if (terminated)
-      db3.addEventListener("close", () => terminated());
+      db2.addEventListener("close", () => terminated());
     if (blocking) {
-      db3.addEventListener("versionchange", (event) => blocking(event.oldVersion, event.newVersion, event));
+      db2.addEventListener("versionchange", (event) => blocking(event.oldVersion, event.newVersion, event));
     }
   }).catch(() => {
   });
@@ -1509,11 +1509,11 @@ function registerVersion(libraryKeyOrName, version5, variant) {
 function getDbPromise() {
   if (!dbPromise) {
     dbPromise = openDB(DB_NAME, DB_VERSION, {
-      upgrade: (db3, oldVersion) => {
+      upgrade: (db2, oldVersion) => {
         switch (oldVersion) {
           case 0:
             try {
-              db3.createObjectStore(STORE_NAME);
+              db2.createObjectStore(STORE_NAME);
             } catch (e) {
               console.warn(e);
             }
@@ -1529,8 +1529,8 @@ function getDbPromise() {
 }
 async function readHeartbeatsFromIndexedDB(app2) {
   try {
-    const db3 = await getDbPromise();
-    const tx = db3.transaction(STORE_NAME);
+    const db2 = await getDbPromise();
+    const tx = db2.transaction(STORE_NAME);
     const result = await tx.objectStore(STORE_NAME).get(computeKey(app2));
     await tx.done;
     return result;
@@ -1547,8 +1547,8 @@ async function readHeartbeatsFromIndexedDB(app2) {
 }
 async function writeHeartbeatsToIndexedDB(app2, heartbeatObject) {
   try {
-    const db3 = await getDbPromise();
-    const tx = db3.transaction(STORE_NAME, "readwrite");
+    const db2 = await getDbPromise();
+    const tx = db2.transaction(STORE_NAME, "readwrite");
     const objectStore = tx.objectStore(STORE_NAME);
     await objectStore.put(heartbeatObject, computeKey(app2));
     await tx.done;
@@ -4051,8 +4051,8 @@ function _getServiceWorkerController() {
 function _getWorkerGlobalScope() {
   return _isWorker() ? self : null;
 }
-function getObjectStore(db3, isReadWrite) {
-  return db3.transaction([DB_OBJECTSTORE_NAME], isReadWrite ? "readwrite" : "readonly").objectStore(DB_OBJECTSTORE_NAME);
+function getObjectStore(db2, isReadWrite) {
+  return db2.transaction([DB_OBJECTSTORE_NAME], isReadWrite ? "readwrite" : "readonly").objectStore(DB_OBJECTSTORE_NAME);
 }
 function _deleteDatabase() {
   const request = indexedDB.deleteDatabase(DB_NAME2);
@@ -4065,39 +4065,39 @@ function _openDatabase() {
       reject(request.error);
     });
     request.addEventListener("upgradeneeded", () => {
-      const db3 = request.result;
+      const db2 = request.result;
       try {
-        db3.createObjectStore(DB_OBJECTSTORE_NAME, { keyPath: DB_DATA_KEYPATH });
+        db2.createObjectStore(DB_OBJECTSTORE_NAME, { keyPath: DB_DATA_KEYPATH });
       } catch (e) {
         reject(e);
       }
     });
     request.addEventListener("success", async () => {
-      const db3 = request.result;
-      if (!db3.objectStoreNames.contains(DB_OBJECTSTORE_NAME)) {
-        db3.close();
+      const db2 = request.result;
+      if (!db2.objectStoreNames.contains(DB_OBJECTSTORE_NAME)) {
+        db2.close();
         await _deleteDatabase();
         resolve(await _openDatabase());
       } else {
-        resolve(db3);
+        resolve(db2);
       }
     });
   });
 }
-async function _putObject(db3, key, value) {
-  const request = getObjectStore(db3, true).put({
+async function _putObject(db2, key, value) {
+  const request = getObjectStore(db2, true).put({
     [DB_DATA_KEYPATH]: key,
     value
   });
   return new DBPromise(request).toPromise();
 }
-async function getObject(db3, key) {
-  const request = getObjectStore(db3, false).get(key);
+async function getObject(db2, key) {
+  const request = getObjectStore(db2, false).get(key);
   const data = await new DBPromise(request).toPromise();
   return data === void 0 ? null : data.value;
 }
-function _deleteObject(db3, key) {
-  const request = getObjectStore(db3, true).delete(key);
+function _deleteObject(db2, key) {
+  const request = getObjectStore(db2, true).delete(key);
   return new DBPromise(request).toPromise();
 }
 function startSignInPhoneMfa(auth2, request) {
@@ -8713,8 +8713,8 @@ var init_index_68039fd7 = __esm({
         let numAttempts = 0;
         while (true) {
           try {
-            const db3 = await this._openDb();
-            return await op(db3);
+            const db2 = await this._openDb();
+            return await op(db2);
           } catch (e) {
             if (numAttempts++ > _TRANSACTION_RETRY_COUNT) {
               throw e;
@@ -8810,9 +8810,9 @@ var init_index_68039fd7 = __esm({
           if (!indexedDB) {
             return false;
           }
-          const db3 = await _openDatabase();
-          await _putObject(db3, STORAGE_AVAILABLE_KEY, "1");
-          await _deleteObject(db3, STORAGE_AVAILABLE_KEY);
+          const db2 = await _openDatabase();
+          await _putObject(db2, STORAGE_AVAILABLE_KEY, "1");
+          await _deleteObject(db2, STORAGE_AVAILABLE_KEY);
           return true;
         } catch (_a) {
         }
@@ -8828,26 +8828,26 @@ var init_index_68039fd7 = __esm({
       }
       async _set(key, value) {
         return this._withPendingWrite(async () => {
-          await this._withRetries((db3) => _putObject(db3, key, value));
+          await this._withRetries((db2) => _putObject(db2, key, value));
           this.localCache[key] = value;
           return this.notifyServiceWorker(key);
         });
       }
       async _get(key) {
-        const obj = await this._withRetries((db3) => getObject(db3, key));
+        const obj = await this._withRetries((db2) => getObject(db2, key));
         this.localCache[key] = obj;
         return obj;
       }
       async _remove(key) {
         return this._withPendingWrite(async () => {
-          await this._withRetries((db3) => _deleteObject(db3, key));
+          await this._withRetries((db2) => _deleteObject(db2, key));
           delete this.localCache[key];
           return this.notifyServiceWorker(key);
         });
       }
       async _poll() {
-        const result = await this._withRetries((db3) => {
-          const getAllRequest = getObjectStore(db3, false).getAll();
+        const result = await this._withRetries((db2) => {
+          const getAllRequest = getObjectStore(db2, false).getAll();
           return new DBPromise(getAllRequest).toPromise();
         });
         if (!result) {
@@ -11603,8 +11603,8 @@ var init_webchannel_blob_es2018 = __esm({
                     f.g || -1 == ya.indexOf("spdy") && -1 == ya.indexOf("quic") && -1 == ya.indexOf("h2") || (f.j = f.l, f.g = /* @__PURE__ */ new Set(), f.h && (bc(f, f.h), f.h = null));
                   }
                   if (d.D) {
-                    const db3 = B2.g ? B2.g.getResponseHeader("X-HTTP-Session-Id") : null;
-                    db3 && (d.ya = db3, S(d.I, d.D, db3));
+                    const db2 = B2.g ? B2.g.getResponseHeader("X-HTTP-Session-Id") : null;
+                    db2 && (d.ya = db2, S(d.I, d.D, db2));
                   }
                 }
                 c.G = 3;
@@ -29053,17 +29053,32 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 // src/profile.ts
 init_index_esm();
 init_index_esm3();
-var profileForm = document.getElementById("profileForm");
-var profileEmailInput = document.getElementById("profileEmail");
-var profileNameInput = document.getElementById("profileName");
-var profileBioTextarea = document.getElementById("profileBio");
-var profileMessageP = document.getElementById("profileMessage");
-var profileErrorP = document.getElementById("profileError");
-var loadingDiv = document.getElementById("loading-profile");
+var profileForm = document.getElementById(
+  "profileForm"
+);
+var profileEmailInput = document.getElementById(
+  "profileEmail"
+);
+var profileNameInput = document.getElementById(
+  "profileName"
+);
+var profileBioTextarea = document.getElementById(
+  "profileBio"
+);
+var profileMessageP = document.getElementById(
+  "profileMessage"
+);
+var profileErrorP = document.getElementById(
+  "profileError"
+);
+var loadingDiv = document.getElementById(
+  "loading-profile"
+);
 var getUserProfileCallable = httpsCallable(functionsInstance, "getUserProfile");
 var updateUserProfileCallable = httpsCallable(functionsInstance, "updateUserProfile");
 async function loadUserProfile(user) {
-  if (!profileEmailInput || !profileNameInput || !profileBioTextarea || !loadingDiv || !profileMessageP || !profileErrorP) return;
+  if (!profileEmailInput || !profileNameInput || !profileBioTextarea || !loadingDiv || !profileMessageP || !profileErrorP)
+    return;
   loadingDiv.style.display = "block";
   profileMessageP.textContent = "";
   profileErrorP.textContent = "";
@@ -29075,7 +29090,11 @@ async function loadUserProfile(user) {
     profileBioTextarea.value = profile.bio || "";
   } catch (error) {
     console.error("Error fetching user profile:", error);
-    profileErrorP.textContent = error.message || "Could not load profile.";
+    if (error instanceof Error) {
+      profileErrorP.textContent = error.message;
+    } else {
+      profileErrorP.textContent = "Could not load profile due to an unknown error.";
+    }
   } finally {
     loadingDiv.style.display = "none";
   }
@@ -29110,7 +29129,11 @@ if (profileForm && profileNameInput && profileBioTextarea && profileMessageP && 
       profileMessageP.textContent = result.data.message || "Profile updated successfully!";
     } catch (error) {
       console.error("Error updating profile:", error);
-      profileErrorP.textContent = error.message || "Failed to update profile.";
+      if (error instanceof Error) {
+        profileErrorP.textContent = error.message;
+      } else {
+        profileErrorP.textContent = "Failed to update Profile.";
+      }
     }
   });
 }

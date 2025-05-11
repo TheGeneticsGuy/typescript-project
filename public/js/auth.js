@@ -29053,20 +29053,48 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 // src/auth.ts
 init_index_esm();
 init_index_esm3();
-var registerSection = document.getElementById("register-section");
-var loginSection = document.getElementById("login-section");
-var showLoginLink = document.getElementById("showLogin");
-var showRegisterLink = document.getElementById("showRegister");
-var registerForm = document.getElementById("registerForm");
-var registerEmailInput = document.getElementById("registerEmail");
-var registerPasswordInput = document.getElementById("registerPassword");
-var registerNameInput = document.getElementById("registerName");
-var registerErrorP = document.getElementById("registerError");
-var loginForm = document.getElementById("loginForm");
-var loginEmailInput = document.getElementById("loginEmail");
-var loginPasswordInput = document.getElementById("loginPassword");
-var loginErrorP = document.getElementById("loginError");
-var googleSignInButton = document.getElementById("googleSignInButton");
+var registerSection = document.getElementById(
+  "register-section"
+);
+var loginSection = document.getElementById(
+  "login-section"
+);
+var showLoginLink = document.getElementById(
+  "showLogin"
+);
+var showRegisterLink = document.getElementById(
+  "showRegister"
+);
+var registerForm = document.getElementById(
+  "registerForm"
+);
+var registerEmailInput = document.getElementById(
+  "registerEmail"
+);
+var registerPasswordInput = document.getElementById(
+  "registerPassword"
+);
+var registerNameInput = document.getElementById(
+  "registerName"
+);
+var registerErrorP = document.getElementById(
+  "registerError"
+);
+var loginForm = document.getElementById(
+  "loginForm"
+);
+var loginEmailInput = document.getElementById(
+  "loginEmail"
+);
+var loginPasswordInput = document.getElementById(
+  "loginPassword"
+);
+var loginErrorP = document.getElementById(
+  "loginError"
+);
+var googleSignInButton = document.getElementById(
+  "googleSignInButton"
+);
 var createUserProfile = httpsCallable(functionsInstance, "createUserProfile");
 function showRegisterView() {
   if (registerSection) registerSection.style.display = "block";
@@ -29112,8 +29140,11 @@ if (registerForm && registerEmailInput && registerPasswordInput && registerError
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       if (userCredential.user && (name5 || userCredential.user.displayName)) {
         try {
-          const profileData = { name: name5 || userCredential.user.displayName || "" };
-          const result = await createUserProfile(profileData);
+          const profileData = {
+            name: name5 || userCredential.user.displayName || ""
+          };
+          const profileResult = await createUserProfile(profileData);
+          console.log("Profile creation result:", profileResult.data.message);
         } catch (profileError) {
           console.error("Error creating user profile document:", profileError);
         }
@@ -29121,11 +29152,20 @@ if (registerForm && registerEmailInput && registerPasswordInput && registerError
       window.location.href = "/profile.html";
     } catch (error) {
       console.error("Registration error:", error);
-      registerErrorP.textContent = error.message || "Failed to register.";
+      if (error instanceof Error) {
+        registerErrorP.textContent = error.message;
+      } else {
+        registerErrorP.textContent = "An unknown error occurred during registration.";
+      }
     }
   });
 } else {
-  console.log({ registerForm, registerEmailInput, registerPasswordInput, registerErrorP });
+  console.log({
+    registerForm,
+    registerEmailInput,
+    registerPasswordInput,
+    registerErrorP
+  });
 }
 if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
   loginForm.addEventListener("submit", async (e) => {
@@ -29135,12 +29175,20 @@ if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
     const password = loginPasswordInput.value;
     try {
       loginErrorP.textContent = "";
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log("User logged in:", userCredential.user);
       window.location.href = "/profile.html";
     } catch (error) {
       console.error("Login error:", error);
-      loginErrorP.textContent = error.message || "Failed to login.";
+      if (error instanceof Error) {
+        loginErrorP.textContent = error.message;
+      } else {
+        loginErrorP.textContent = "An unknown error occurred during registration.";
+      }
     }
   });
 }
@@ -29153,16 +29201,27 @@ if (googleSignInButton) {
       const user = result.user;
       if (user) {
         try {
-          const profileData = { name: user.displayName || "" };
+          const profileData = {
+            name: user.displayName || ""
+          };
           await createUserProfile(profileData);
         } catch (profileError) {
-          console.error("Error ensuring user profile for Google Sign-In:", profileError);
+          console.error(
+            "Error ensuring user profile for Google Sign-In:",
+            profileError
+          );
         }
       }
       window.location.href = "/profile.html";
     } catch (error) {
       console.error("Google Sign-In error:", error);
-      if (loginErrorP) loginErrorP.textContent = error.message || "Google Sign-In failed.";
+      if (loginErrorP) {
+        if (error instanceof Error) {
+          loginErrorP.textContent = error.message;
+        } else {
+          loginErrorP.textContent = "Google Sign-In failed due to an unknown error.";
+        }
+      }
     }
   });
 }
