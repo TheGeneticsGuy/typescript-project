@@ -24,26 +24,28 @@ const db: Firestore = getFirestore(app);
 const functionsInstance: Functions = getFunctions(app);
 
 // Let's do some stretch work, setup some try/catch
-if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-  console.log("Connecting to Firebase Emulators (IIFE approach)");
+if (
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+) {
+  console.log('Connecting to Firebase Emulators (IIFE approach)');
   (async () => {
     try {
-      const { connectAuthEmulator } = await import("firebase/auth");
-      const { connectFirestoreEmulator } = await import("firebase/firestore");
-      const { connectFunctionsEmulator } = await import("firebase/functions");
+      const { connectAuthEmulator } = await import('firebase/auth');
+      const { connectFirestoreEmulator } = await import('firebase/firestore');
+      const { connectFunctionsEmulator } = await import('firebase/functions');
 
       // Please note - all of these ports were part of the default Firebase suggested on the firebase init
-      connectAuthEmulator(auth, "http://localhost:9099");
-      console.log("Auth emulator connected or connection attempt made.");
+      connectAuthEmulator(auth, 'http://localhost:9099');
+      console.log('Auth emulator connected or connection attempt made.');
 
-      connectFirestoreEmulator(db, "localhost", 8080);
-      console.log("Firestore emulator connected or connection attempt made.");
+      connectFirestoreEmulator(db, 'localhost', 8080);
+      console.log('Firestore emulator connected or connection attempt made.');
 
-      connectFunctionsEmulator(functionsInstance, "localhost", 5001); // Use renamed variable
-      console.log("Functions emulator connected or connection attempt made.");
-
+      connectFunctionsEmulator(functionsInstance, 'localhost', 5001); // Use renamed variable
+      console.log('Functions emulator connected or connection attempt made.');
     } catch (error) {
-      console.warn("Error during emulator connection setup:", error);
+      console.warn('Error during emulator connection setup:', error);
     }
   })();
 }

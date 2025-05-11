@@ -10,13 +10,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.ts" /* Compile all .ts files in the src directory */
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "public",
-    "functions"
-  ]
+  "include": ["src/**/*.ts" /* Compile all .ts files in the src directory */],
+  "exclude": ["node_modules", "build", "public", "functions"]
 }

@@ -2,19 +2,34 @@ import { auth } from './firebase-init.js';
 import { onAuthStateChanged, signOut, User } from 'firebase/auth';
 
 // Nav elements that will be on all pages
-const loginLinkNav = document.getElementById('loginLinkNav') as HTMLAnchorElement | null;
-const registerLinkNav = document.getElementById('registerLinkNav') as HTMLAnchorElement | null;
-const profileLink = document.getElementById('profileLink') as HTMLAnchorElement | null;
-const logoutButton = document.getElementById('logoutButton') as HTMLButtonElement | null;
+const loginLinkNav = document.getElementById(
+  'loginLinkNav'
+) as HTMLAnchorElement | null;
+const registerLinkNav = document.getElementById(
+  'registerLinkNav'
+) as HTMLAnchorElement | null;
+const profileLink = document.getElementById(
+  'profileLink'
+) as HTMLAnchorElement | null;
+const logoutButton = document.getElementById(
+  'logoutButton'
+) as HTMLButtonElement | null;
 
 // specific to index.html
-const userInfoDiv = document.getElementById('userInfo') as HTMLDivElement | null;
-const userEmailSpan = document.getElementById('userEmail') as HTMLSpanElement | null;
+const userInfoDiv = document.getElementById(
+  'userInfo'
+) as HTMLDivElement | null;
+const userEmailSpan = document.getElementById(
+  'userEmail'
+) as HTMLSpanElement | null;
 
 // specific to profile.html
-const notLoggedInDivProfile = document.getElementById('not-logged-in') as HTMLDivElement | null;
-const profileContainerDiv = document.getElementById('profile-container') as HTMLDivElement | null;
-
+const notLoggedInDivProfile = document.getElementById(
+  'not-logged-in'
+) as HTMLDivElement | null;
+const profileContainerDiv = document.getElementById(
+  'profile-container'
+) as HTMLDivElement | null;
 
 onAuthStateChanged(auth, (user: User | null) => {
   if (user) {
@@ -31,7 +46,6 @@ onAuthStateChanged(auth, (user: User | null) => {
       if (notLoggedInDivProfile) notLoggedInDivProfile.style.display = 'none';
       if (profileContainerDiv) profileContainerDiv.style.display = 'block';
     }
-
   } else {
     // User is signed out
     if (loginLinkNav) loginLinkNav.style.display = 'inline-block';
@@ -55,7 +69,10 @@ if (logoutButton) {
     try {
       await signOut(auth);
       console.log('User signed out');
-      if (!window.location.pathname.endsWith('/') && !window.location.pathname.includes('index.html')) {
+      if (
+        !window.location.pathname.endsWith('/') &&
+        !window.location.pathname.includes('index.html')
+      ) {
         window.location.href = '/'; // to home
       } else {
         // Refresh?? Leave empty I guess

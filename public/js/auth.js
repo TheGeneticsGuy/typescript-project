@@ -791,8 +791,8 @@ var init_index_esm20172 = __esm({
         this.instantiationMode = "LAZY";
         this.onInstanceCreated = null;
       }
-      setInstantiationMode(mode) {
-        this.instantiationMode = mode;
+      setInstantiationMode(mode2) {
+        this.instantiationMode = mode2;
         return this;
       }
       setMultipleInstances(multipleInstances) {
@@ -3362,8 +3362,8 @@ async function verifyPhoneNumberForExisting(auth2, request) {
   const apiRequest = Object.assign(Object.assign({}, request), { operation: "REAUTH" });
   return _performSignInRequest(auth2, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth2, apiRequest), VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_);
 }
-function parseMode(mode) {
-  switch (mode) {
+function parseMode(mode2) {
+  switch (mode2) {
     case "recoverEmail":
       return "RECOVER_EMAIL";
     case "resetPassword":
@@ -29053,22 +29053,54 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 // src/auth.ts
 init_index_esm();
 init_index_esm3();
-var registerForm = document.getElementById(
-  "registerForm"
-);
-var registerEmailInput = document.getElementById(
-  "registerEmail"
-);
-var registerPasswordInput = document.getElementById(
-  "registerPassword"
-);
-var registerNameInput = document.getElementById(
-  "registerName"
-);
-var registerErrorP = document.getElementById(
-  "registerError"
-);
+var registerSection = document.getElementById("register-section");
+var loginSection = document.getElementById("login-section");
+var showLoginLink = document.getElementById("showLogin");
+var showRegisterLink = document.getElementById("showRegister");
+var registerForm = document.getElementById("registerForm");
+var registerEmailInput = document.getElementById("registerEmail");
+var registerPasswordInput = document.getElementById("registerPassword");
+var registerNameInput = document.getElementById("registerName");
+var registerErrorP = document.getElementById("registerError");
+var loginForm = document.getElementById("loginForm");
+var loginEmailInput = document.getElementById("loginEmail");
+var loginPasswordInput = document.getElementById("loginPassword");
+var loginErrorP = document.getElementById("loginError");
+var googleSignInButton = document.getElementById("googleSignInButton");
 var createUserProfile = httpsCallable(functionsInstance, "createUserProfile");
+function showRegisterView() {
+  if (registerSection) registerSection.style.display = "block";
+  if (loginSection) loginSection.style.display = "none";
+  if (registerErrorP) registerErrorP.textContent = "";
+  if (loginErrorP) loginErrorP.textContent = "";
+}
+function showLoginView() {
+  if (registerSection) registerSection.style.display = "none";
+  if (loginSection) loginSection.style.display = "block";
+  if (registerErrorP) registerErrorP.textContent = "";
+  if (loginErrorP) loginErrorP.textContent = "";
+}
+if (showLoginLink) {
+  showLoginLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    showLoginView();
+  });
+} else {
+  console.warn("showLoginLink not found");
+}
+if (showRegisterLink) {
+  showRegisterLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    showRegisterView();
+  });
+}
+var urlParams = new URLSearchParams(window.location.search);
+var mode = urlParams.get("mode");
+if (mode === "register") {
+  showRegisterView();
+} else {
+  showLoginView();
+}
 if (registerForm && registerEmailInput && registerPasswordInput && registerErrorP) {
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -29078,12 +29110,10 @@ if (registerForm && registerEmailInput && registerPasswordInput && registerError
     try {
       registerErrorP.textContent = "";
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("User registered:", userCredential.user);
-      if (userCredential.user && name5) {
+      if (userCredential.user && (name5 || userCredential.user.displayName)) {
         try {
-          const profileData = { name: name5 };
+          const profileData = { name: name5 || userCredential.user.displayName || "" };
           const result = await createUserProfile(profileData);
-          console.log("Profile creation result:", result.data);
         } catch (profileError) {
           console.error("Error creating user profile document:", profileError);
         }
@@ -29094,31 +29124,18 @@ if (registerForm && registerEmailInput && registerPasswordInput && registerError
       registerErrorP.textContent = error.message || "Failed to register.";
     }
   });
+} else {
+  console.log({ registerForm, registerEmailInput, registerPasswordInput, registerErrorP });
 }
-var loginForm = document.getElementById(
-  "loginForm"
-);
-var loginEmailInput = document.getElementById(
-  "loginEmail"
-);
-var loginPasswordInput = document.getElementById(
-  "loginPassword"
-);
-var loginErrorP = document.getElementById(
-  "loginError"
-);
 if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("Login form submitted");
     const email = loginEmailInput.value;
     const password = loginPasswordInput.value;
     try {
       loginErrorP.textContent = "";
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("User logged in:", userCredential.user);
       window.location.href = "/profile.html";
     } catch (error) {
@@ -29127,9 +29144,6 @@ if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
     }
   });
 }
-var googleSignInButton = document.getElementById(
-  "googleSignInButton"
-);
 if (googleSignInButton) {
   googleSignInButton.addEventListener("click", async () => {
     const provider = new GoogleAuthProvider();
@@ -29137,12 +29151,18 @@ if (googleSignInButton) {
       if (loginErrorP) loginErrorP.textContent = "";
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Google Sign-In success:", user);
+      if (user) {
+        try {
+          const profileData = { name: user.displayName || "" };
+          await createUserProfile(profileData);
+        } catch (profileError) {
+          console.error("Error ensuring user profile for Google Sign-In:", profileError);
+        }
+      }
       window.location.href = "/profile.html";
     } catch (error) {
       console.error("Google Sign-In error:", error);
-      if (loginErrorP)
-        loginErrorP.textContent = error.message || "Google Sign-In failed.";
+      if (loginErrorP) loginErrorP.textContent = error.message || "Google Sign-In failed.";
     }
   });
 }
