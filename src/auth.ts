@@ -53,9 +53,12 @@ const loginErrorP = document.getElementById(
   'loginError'
 ) as HTMLParagraphElement | null;
 
-// Google Button
+// Google Buttons to Register or sign in
 const googleSignInButton = document.getElementById(
   'googleSignInButton'
+) as HTMLButtonElement | null;
+const googleSignUpButton = document.getElementById(
+  'googleSignUpButton'
 ) as HTMLButtonElement | null;
 
 // Call the profile
@@ -141,7 +144,8 @@ if (
       if (error instanceof Error) {
         registerErrorP.textContent = error.message;
       } else {
-        registerErrorP.textContent = 'An unknown error occurred during registration.';
+        registerErrorP.textContent =
+          'An unknown error occurred during registration.';
       }
     }
   });
@@ -176,44 +180,68 @@ if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
       if (error instanceof Error) {
         loginErrorP.textContent = error.message;
       } else {
-        loginErrorP.textContent = 'An unknown error occurred during registration.';
+        loginErrorP.textContent =
+          'An unknown error occurred during registration.';
       }
     }
   });
 }
 
-// Google signin logic
-if (googleSignInButton) {
-  googleSignInButton.addEventListener('click', async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      if (loginErrorP) loginErrorP.textContent = '';
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+// Google signin logic - From the official documentation of Firebase
+async function handleGoogleAuth() {
+  const provider = new GoogleAuthProvider();
+  try {
+    if (loginErrorP) loginErrorP.textContent = '';
+    if (registerErrorP) registerErrorP.textContent = '';
 
-      if (user) {
-        try {
-          const profileData: CreateUserProfileData = {
-            name: user.displayName || '',
-          };
-          await createUserProfile(profileData);
-        } catch (profileError) {
-          console.error(
-            'Error ensuring user profile for Google Sign-In:',
-            profileError
-          );
-        }
-      }
-      window.location.href = '/profile.html';
-    } catch (error) {
-      console.error('Google Sign-In error:', error);
-      if (loginErrorP) {
-        if (error instanceof Error) {
-          loginErrorP.textContent = error.message;
-        } else {
-          loginErrorP.textContent = 'Google Sign-In failed due to an unknown error.';
-        }
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    if (user) {
+      try {
+        const profileData: CreateUserProfileData = {
+          name: user.displayName || '',
+        };
+        await createUserProfile(profileData);
+        console.log('Profile ensured for Google user.');
+      } catch (profileError) {
+        console.error(
+          'Error ensuring user profile for Google Auth:',
+          profileError
+        );
       }
     }
-  });
+    window.location.href = '/profile.html';
+  } catch (error) {
+    console.error('Google Auth error:', error);
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : 'Google Auth failed due to an unknown error.';
+    if (loginSection && loginSection.style.display !== 'none' && loginErrorP) {
+      loginErrorP.textContent = errorMessage;
+    } else if (
+      registerSection &&
+      registerSection.style.display !== 'none' &&
+      registerErrorP
+    ) {
+      registerErrorP.textContent = errorMessage;
+    } else if (loginErrorP) {
+      loginErrorP.textContent = errorMessage;
+    }
+  }
+}
+
+// Attach handler to the Sign IN button
+if (googleSignInButton) {
+  googleSignInButton.addEventListener('click', handleGoogleAuth);
+} else {
+  console.warn('googleSignInButton (for login view) not found');
+}
+
+// Attach handler to the Sign UP button
+if (googleSignUpButton) {
+  googleSignUpButton.addEventListener('click', handleGoogleAuth);
+} else {
+  console.warn('googleSignUpButton (for register view) not found');
 }

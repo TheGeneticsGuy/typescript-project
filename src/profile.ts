@@ -75,11 +75,12 @@ async function loadUserProfile(user: User) {
     profileNameInput.value = profile.name || '';
     profileBioTextarea.value = profile.bio || '';
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error('Error fetching user profile:', error);
     if (error instanceof Error) {
       profileErrorP.textContent = error.message;
     } else {
-      profileErrorP.textContent = "Could not load profile due to an unknown error.";
+      profileErrorP.textContent =
+        'Could not load profile due to an unknown error.';
     }
   } finally {
     loadingDiv.style.display = 'none';
@@ -129,11 +130,11 @@ if (
       profileMessageP.textContent =
         result.data.message || 'Profile updated successfully!';
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error('Error updating profile:', error);
       if (error instanceof Error) {
         profileErrorP.textContent = error.message;
       } else {
-        profileErrorP.textContent = "Failed to update Profile.";
+        profileErrorP.textContent = 'Failed to update Profile.';
       }
     }
   });

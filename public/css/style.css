@@ -73,7 +73,8 @@ textarea {
 }
 
 button[type="submit"],
-button#googleSignInButton {
+#googleSignInButton,
+#googleSignUpButton {
     background-color: #5cb85c;
     color: white;
     padding: 10px 15px;
@@ -84,17 +85,20 @@ button#googleSignInButton {
 }
 
 button[type="submit"]:hover,
-button#googleSignInButton:hover {
+#googleSignInButton:hover,
+#googleSignUpButton:hover {
     background-color: #4cae4c;
 }
 
-button#googleSignInButton {
+#googleSignInButton,
+#googleSignUpButton {
     background-color: #4285F4;
     /* I did a color match for Google's Blue and got this. */
     margin-top: 0.5em;
 }
 
-button#googleSignInButton:hover {
+#googleSignInButton:hover,
+#googleSignUpButton:hover {
     background-color: #357ae8;
 }
 
@@ -114,6 +118,12 @@ hr {
     margin: 2em 0;
     border: 0;
     border-top: 1px solid #eee;
+}
+
+.message-switch {
+    margin-top: 1em;
+    font-size: 0.9em;
+    text-align: center;
 }
 
 footer {

@@ -35,10 +35,12 @@
                         <label for="registerName">Full Name (Optional):</label>
                         <input type="text" id="registerName">
                     </div>
-                    <button type="submit">Register</button>
+                    <button type="submit">Register with Email</button>
                     <p id="registerError" class="error-message"></p>
                 </form>
-                <p>Already have an account? <a href="#" id="showLogin">Login here</a>.</p>
+                <p style="text-align: left; margin: 1em 0;">OR</p>
+                <button id="googleSignUpButton">Sign up with Google</button>
+                <p class="message-switch">Already have an account? <a href="#" id="showLogin">Login here</a>.</p>
             </section>
 
             <!-- Login Form -->
@@ -53,11 +55,12 @@
                         <label for="loginPassword">Password:</label>
                         <input type="password" id="loginPassword" required>
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit">Login with Email</button>
                     <p id="loginError" class="error-message"></p>
                 </form>
+                <p style="text-align: left; margin: 1em 0;">OR</p>
                 <button id="googleSignInButton">Sign in with Google</button>
-                <p>Don't have an account? <a href="#" id="showRegister">Register here</a>.</p>
+                <p class="message-switch">Don't have an account? <a href="#" id="showRegister">Register here</a>.</p>
             </section>
         </div>
     </main>
