@@ -107,3 +107,35 @@ export const updateUserProfile = onCall(async (request) => {
         throw new HttpsError("internal", "Failed to update profile.");
     }
 });
+
+export const getUserProfile = onCall(async (request) => {
+    const uid = request.auth?.uid;
+    if (!uid) {
+        throw new HttpsError("unauthenticated", "User must be authenticated.");
+    }
+
+    try {
+        const userDoc = await db.collection("users").doc(uid).get();
+        if (!userDoc.exists) {
+            // Let's set a generic profile if it doesn't exist
+            // I found this can happen if a user signed up with Google but the createUserProfile wasn't
+            // explicityly called...
+            logger.info(`Profile not found for ${uid}, creating generic, basic one.`);
+            const basicProfile = {
+                uid,
+                email: request.auth?.token.email,
+                name: request.auth?.token.name || "",
+                bio: "",
+                createdAt: FieldValue.serverTimestamp(),
+                updatedAt: FieldValue.serverTimestamp(),
+            };
+            await db.collection("users").doc(uid).set(basicProfile);
+            logger.info(`General profile created for UID: ${uid}`);
+            return { profile: basicProfile };
+        }
+        return { profile: userDoc.data() };
+    } catch (error) {
+        logger.error("Error getting user profile:", uid, error);
+        throw new HttpsError("internal", "Failed to get user profile.");
+    }
+});
