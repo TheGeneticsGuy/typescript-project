@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Profile Page">
+    <meta name="author" content="Aaron Topping">
+    <title>User Profile Management Page</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>User Profile</h1>
+        <nav>
+            <a href="/">Home</a>
+            <button id="logoutButton">Logout</button>
+        </nav>
+    </header>
+    <main>
+        <div id="profile-container">
+            <h2>Manage Your Profile</h2>
+            <form id="profileForm">
+                <div>
+                    <label for="profileEmail">Email:</label>
+                    <input type="email" id="profileEmail" readonly>
+                </div>
+                <div>
+                    <label for="profileName">Full Name:</label>
+                    <input type="text" id="profileName">
+                </div>
+                <div>
+                    <label for="profileBio">Bio:</label>
+                    <textarea id="profileBio"></textarea>
+                </div>
+                <button type="submit">Update Profile</button>
+                <p id="profileMessage" class="success-message"></p>
+                <p id="profileError" class="error-message"></p>
+            </form>
+        </div>
+        <div id="loading-profile" style="display:none;">Loading profile...</div>
+        <div id="not-logged-in" style="display:none;">
+            <p>You are not logged in. Please <a href="/auth.html">login or register</a>.</p>
+        </div>
+    </main>
+    <script type="module" src="/js/firebase-init.js"></script>
+    <script type="module" src="/js/profile.js"></script>
+    <script type="module" src="/js/app.js"></script>
+    <!-- For clarity, I needed to add this for user logut/autho status-->
+</body>
+
+</html>

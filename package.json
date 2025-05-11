@@ -1,0 +1,31 @@
+{
+  "name": "typescript-project",
+  "version": "1.0.0",
+  "description": "CSE 310 - Typescript Module",
+  "type": "module",
+  "main": "build/index.js",
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "@types/node": "^22.7.5",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.32.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "compile": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"*.{js,json,md}\"",
+    "fix": "eslint . --fix",
+    "prepare": "npm run compile",
+    "posttest": "npm run lint",
+    "serve": "firebase emulators:start"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "firebase": "^11.7.1"
+  }
+}
