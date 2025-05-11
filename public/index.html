@@ -6,63 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Demo of a working Authentication Site">
   <meta name="author" content="Aaron Topping">
-  <title>Authentication Page</title>
+  <title>Authentication Demo Home Page</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <header>
-    <h1>User Authentication Demo</h1>
+    <h1>Welcome to My TypeScript User Authentication App</h1>
     <nav>
       <a href="/">Home</a>
+      <a href="/auth.html?mode=login" id="loginLinkNav">Login</a>
+      <a href="/auth.html?mode=register" id="registerLinkNav">Register</a>
+      <a href="/profile.html" id="profileLink" style="display: none;">Profile</a>
+      <button id="logoutButton" style="display: none;">Logout</button>
     </nav>
   </header>
   <main>
-    <div id="auth-container">
-      <!-- Registration Form -->
-      <section id="register-section">
-        <h2>Register</h2>
-        <form id="registerForm">
-          <div>
-            <label for="registerEmail">Email:</label>
-            <input type="email" id="registerEmail" required>
-          </div>
-          <div>
-            <label for="registerPassword">Password:</label>
-            <input type="password" id="registerPassword" required>
-          </div>
-          <div>
-            <label for="registerName">Full Name (Optional):</label>
-            <input type="text" id="registerName">
-          </div>
-          <button type="submit">Register</button>
-          <p id="registerError" class="error-message"></p>
-        </form>
-      </section>
-
-      <hr>
-
-      <!-- Login Form -->
-      <section id="login-section">
-        <h2>Login</h2>
-        <form id="loginForm">
-          <div>
-            <label for="loginEmail">Email:</label>
-            <input type="email" id="loginEmail" required>
-          </div>
-          <div>
-            <label for="loginPassword">Password:</label>
-            <input type="password" id="loginPassword" required>
-          </div>
-          <button type="submit">Login</button>
-          <p id="loginError" class="error-message"></p>
-        </form>
-        <button id="googleSignInButton">Sign in with Google</button>
-      </section>
+    <p>This is the home page. Welcome!</p>
+    <p>Please <a href="/auth.html?mode=login">login</a> or <a href="/auth.html?mode=register">create an account</a> to
+      manage your profile.</p>
+    <div id="userInfo" style="display: none;">
+      <p>Logged in as: <span id="userEmail"></span></p>
     </div>
   </main>
+  <!-- Firebase SDKs -->
   <script type="module" src="/js/firebase-init.js"></script>
-  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/app.js"></script>
 </body>
 
 </html>

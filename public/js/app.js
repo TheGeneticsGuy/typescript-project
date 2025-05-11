@@ -29052,30 +29052,18 @@ if (window.location.hostname === "localhost" || window.location.hostname === "12
 
 // src/app.ts
 init_index_esm();
-var authLink = document.getElementById(
-  "authLink"
-);
-var profileLink = document.getElementById(
-  "profileLink"
-);
-var logoutButton = document.getElementById(
-  "logoutButton"
-);
-var userInfoDiv = document.getElementById(
-  "userInfo"
-);
-var userEmailSpan = document.getElementById(
-  "userEmail"
-);
-var notLoggedInDivProfile = document.getElementById(
-  "not-logged-in"
-);
-var profileContainerDiv = document.getElementById(
-  "profile-container"
-);
+var loginLinkNav = document.getElementById("loginLinkNav");
+var registerLinkNav = document.getElementById("registerLinkNav");
+var profileLink = document.getElementById("profileLink");
+var logoutButton = document.getElementById("logoutButton");
+var userInfoDiv = document.getElementById("userInfo");
+var userEmailSpan = document.getElementById("userEmail");
+var notLoggedInDivProfile = document.getElementById("not-logged-in");
+var profileContainerDiv = document.getElementById("profile-container");
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    if (authLink) authLink.style.display = "none";
+    if (loginLinkNav) loginLinkNav.style.display = "none";
+    if (registerLinkNav) registerLinkNav.style.display = "none";
     if (profileLink) profileLink.style.display = "inline-block";
     if (logoutButton) logoutButton.style.display = "inline-block";
     if (userInfoDiv) userInfoDiv.style.display = "block";
@@ -29085,7 +29073,8 @@ onAuthStateChanged(auth, (user) => {
       if (profileContainerDiv) profileContainerDiv.style.display = "block";
     }
   } else {
-    if (authLink) authLink.style.display = "inline-block";
+    if (loginLinkNav) loginLinkNav.style.display = "inline-block";
+    if (registerLinkNav) registerLinkNav.style.display = "inline-block";
     if (profileLink) profileLink.style.display = "none";
     if (logoutButton) logoutButton.style.display = "none";
     if (userInfoDiv) userInfoDiv.style.display = "none";
@@ -29101,8 +29090,9 @@ if (logoutButton) {
     try {
       await signOut(auth);
       console.log("User signed out");
-      if (!window.location.pathname.endsWith("/")) {
+      if (!window.location.pathname.endsWith("/") && !window.location.pathname.includes("index.html")) {
         window.location.href = "/";
+      } else {
       }
     } catch (error) {
       console.error("Sign out error", error);
