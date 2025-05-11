@@ -14,6 +14,13 @@ import { HttpsError, onCall } from "firebase-functions/v2/https";
 initializeApp();
 const db = getFirestore();
 
+// I need to define a type to avoid using "ANY"
+interface UserProfileUpdateData {
+    name?: string;
+    bio?: string;
+    updatedAt: FieldValue;
+}
+
 /**
  * Creates a user profile document in Firestore and triggers after client calls function
  */
@@ -105,7 +112,7 @@ export const updateUserProfile = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "No data provided for update.");
     }
 
-    const dataToUpdate: { [key: string]: any } = {
+    const dataToUpdate: Partial<UserProfileUpdateData> & { updatedAt: FieldValue } = {
         updatedAt: FieldValue.serverTimestamp(),
     };
     if (name !== undefined) dataToUpdate.name = name;

@@ -82,3 +82,11 @@ if (logoutButton) {
     }
   });
 }
+
+// Footer
+const yearSpan = document.getElementById(
+  'currentYear'
+) as HTMLSpanElement | null;
+if (yearSpan) {
+  yearSpan.textContent = new Date().getFullYear().toString();
+}

@@ -6,11 +6,20 @@ import eslintJs from '@eslint/js';
 export default tseslint.config(
   {
     ignores: [
-      'node_modules/',
-      'build/',
-      'dist/',
-      'eslint.config.js',
-      '.prettierrc.json',
+      "node_modules/",
+      "functions/node_modules/",
+      "build/",
+      "public/js/",
+      "functions/lib/",
+      "dist/",
+
+      // Firebase specific - pretty sure this is not linted, but will add just in case
+      ".firebase/",
+
+      ".cache/",
+      "*.cache",
+      "*.log",
+      "coverage/",
     ],
   },
 

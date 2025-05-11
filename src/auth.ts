@@ -129,15 +129,18 @@ if (
           const profileData: CreateUserProfileData = {
             name: name || userCredential.user.displayName || '',
           };
-          const result = await createUserProfile(profileData);
         } catch (profileError) {
           console.error('Error creating user profile document:', profileError);
         }
       }
       window.location.href = '/profile.html';
-    } catch (error: any) {
+    } catch (error) {
       console.error('Registration error:', error);
-      registerErrorP.textContent = error.message || 'Failed to register.';
+      if (error instanceof Error) {
+        registerErrorP.textContent = error.message;
+      } else {
+        registerErrorP.textContent = 'An unknown error occurred during registration.';
+      }
     }
   });
 } else {
@@ -166,9 +169,13 @@ if (loginForm && loginEmailInput && loginPasswordInput && loginErrorP) {
       );
       console.log('User logged in:', userCredential.user);
       window.location.href = '/profile.html';
-    } catch (error: any) {
+    } catch (error) {
       console.error('Login error:', error);
-      loginErrorP.textContent = error.message || 'Failed to login.';
+      if (error instanceof Error) {
+        loginErrorP.textContent = error.message;
+      } else {
+        loginErrorP.textContent = 'An unknown error occurred during registration.';
+      }
     }
   });
 }
@@ -196,10 +203,15 @@ if (googleSignInButton) {
         }
       }
       window.location.href = '/profile.html';
-    } catch (error: any) {
+    } catch (error) {
       console.error('Google Sign-In error:', error);
-      if (loginErrorP)
-        loginErrorP.textContent = error.message || 'Google Sign-In failed.';
+      if (loginErrorP) {
+        if (error instanceof Error) {
+          loginErrorP.textContent = error.message;
+        } else {
+          loginErrorP.textContent = 'Google Sign-In failed due to an unknown error.';
+        }
+      }
     }
   });
 }
