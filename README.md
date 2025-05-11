@@ -1,27 +1,34 @@
 # Overview
 
-The goal of this small project was to build a small user authentication system that allows a user to create a profile and login to the site with their now saved profile. I also wanted to be able to allow the user the modern equivalent of choosing what service to use for login, so rather than creating a unique login just for my site, they can use their Google login. Eventually, I want to expand to other optional logins, but Google will be the proof-of-concept since it is so widely used.
+[LIVE DEPLOYMENT OF THE PROJECT](https://cse340-ts-project.web.app/)
 
-Since the logic of this can be a bit complex, and the need of hosting the stored profiles, I worked with Firebase to integrate the feature more easily into
-the site, which ultimately required the app to connect to the Firebase servers to store, retrieve, and update profile information, as well as securely store the login authorization info.
+The goal of this project was to build a user authentication system in TypeScript that allows users to create a profile and log in. A key aspect was to provide modern login options, so I integrated "Sign in with Google" as an alternative to site-specific credentials, with the aim to eventually support other OAuth providers.
 
-Given that TypeScript is a widely used platform, I wanted this useful feature to be built in TypesScript as a proof-of-concept of my ability to build a complex feature in TypeScript.
+Given the need for secure profile storage and backend logic, I chose Firebase as the backend solution. This allowed for easier integration of features like storing user profiles in Firestore, managing login credentials with Firebase Authentication, and handling profile updates via Firebase Cloud Functions.
 
-One of the KEY reasons I also wanted to learn this is I recently deployed a fun website called [Azeroth AI Reporter](https://www.azerothreporter.com/), but the generated profile reports by an LLM are only stored locally. The source GitHub code is [HERE](https://github.com/TheGeneticsGuy/warcraft-ai). I would love to be able to allow users to create their create their own profiles so that reports can be stored and recalled, maybe even used in future analysis in comparison to new reports to determine an evolution of a player. So, this project allows me to learn a skill that I can bring to a real-world deployment of one of my own personal projects as well.
+I specifically wanted to build this in TypeScript to demonstrate my ability to develop complex features using this widely-adopted language. This project is also a direct learning step towards enhancing my existing website, the [Azeroth AI Reporter](https://www.azerothreporter.com/) (source: [GitHub](https://github.com/TheGeneticsGuy/warcraft-ai)). My vision is to enable user accounts there, allowing generated AI reports to be saved, recalled, and potentially analyzed over time—a skill this current project directly helps me develop.
+
+One of the KEY reasons I also wanted to learn this is I recently deployed a fun website called , but the generated profile reports by an LLM are only stored locally. The source GitHub code is [HERE]. I would love to be able to allow users to create their create their own profiles so that reports can be stored and recalled, maybe even used in future analysis in comparison to new reports to determine an evolution of a player. So, this project allows me to learn a skill that I can bring to a real-world deployment of one of my own personal projects as well.
 
 [Software Demo Video](http://youtube.link.goes.here)
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+This project was developed using **Visual Studio Code (VS Code)** as the primary code editor. Key development tools included:
 
-{Describe the programming language that you used and any libraries.}
+*   **Node.js and npm:** For managing project dependencies, running scripts, and providing the JavaScript runtime.
+*   **TypeScript:** As the primary programming language, adding static typing to JavaScript.
+*   **ESLint and Prettier:** For code linting and formatting to maintain code quality and consistency.
+*   **Firebase CLI:** For initializing Firebase services, running local emulators, and deploying the project.
+*   **Firebase Emulators:** For local testing of Authentication, Firestore, Cloud Functions, and Hosting.
+*   **esbuild:** As the JavaScript bundler to process TypeScript files for browser compatibility.
 
-- ESLint Enabled
-- Prettier Enabled
-- Firebase tools installed
+The core programming language used was **TypeScript**. Key libraries and frameworks utilized include:
 
-`npm install -g firebase-tools`
+*   **Firebase SDK (Client-side):** Specifically `firebase/app`, `firebase/auth`, `firebase/firestore` (though Firestore interaction was primarily via backend functions), and `firebase/functions` (for calling backend functions).
+*   **Firebase Admin SDK (Server-side in Cloud Functions):** For backend operations, interacting with Authentication and Firestore securely.
+*   **Firebase Functions:** For writing serverless backend logic (user profile management).
+*   **Standard Web Technologies:** HTML5, CSS3 for the frontend structure and styling.
 
 # Useful Websites
 
