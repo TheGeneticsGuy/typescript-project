@@ -10,7 +10,7 @@ I specifically wanted to build this in TypeScript to demonstrate my ability to d
 
 One of the KEY reasons I also wanted to learn this is I recently deployed a fun website called , but the generated profile reports by an LLM are only stored locally. The source GitHub code is [HERE]. I would love to be able to allow users to create their create their own profiles so that reports can be stored and recalled, maybe even used in future analysis in comparison to new reports to determine an evolution of a player. So, this project allows me to learn a skill that I can bring to a real-world deployment of one of my own personal projects as well.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/gGohKS7AjmE)
 
 # Development Environment
 
