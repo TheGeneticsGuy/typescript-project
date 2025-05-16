@@ -8,8 +8,6 @@ Given the need for secure profile storage and backend logic, I chose Firebase as
 
 I specifically wanted to build this in TypeScript to demonstrate my ability to develop complex features using this widely-adopted language. This project is also a direct learning step towards enhancing my existing website, the [Azeroth AI Reporter](https://www.azerothreporter.com/) (source: [GitHub](https://github.com/TheGeneticsGuy/warcraft-ai)). My vision is to enable user accounts there, allowing generated AI reports to be saved, recalled, and potentially analyzed over time—a skill this current project directly helps me develop.
 
-One of the KEY reasons I also wanted to learn this is I recently deployed a fun website called , but the generated profile reports by an LLM are only stored locally. The source GitHub code is [HERE]. I would love to be able to allow users to create their create their own profiles so that reports can be stored and recalled, maybe even used in future analysis in comparison to new reports to determine an evolution of a player. So, this project allows me to learn a skill that I can bring to a real-world deployment of one of my own personal projects as well.
-
 [Software Demo Video](https://youtu.be/gGohKS7AjmE)
 
 # Development Environment
