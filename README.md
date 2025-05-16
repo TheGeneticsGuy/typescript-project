@@ -1,6 +1,6 @@
 # Overview
 
-[LIVE DEPLOYMENT OF THE PROJECT](https://cse340-ts-project.web.app/)
+[CLICK HERE FOR LIVE DEPLOYMENT OF THE TYPESCRIPT PROJECT](https://cse340-ts-project.web.app/)
 
 The goal of this project was to build a user authentication system in TypeScript that allows users to create a profile and log in. A key aspect was to provide modern login options, so I integrated "Sign in with Google" as an alternative to site-specific credentials, with the aim to eventually support other OAuth providers.
 
